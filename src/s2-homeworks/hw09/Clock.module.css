@@ -1,14 +1,20 @@
 .buttonsContainer {
+
 }
 
 .clock {
+    width: 300px;
+    border: solid black 2px;
 }
 
 .watch {
+
 }
 
 .watch strong {
+
 }
 
 .more {
+
 }
