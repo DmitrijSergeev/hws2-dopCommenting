@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
 import SuperButton from '../hw04/common/c2-SuperButton/SuperButton'
-import {restoreState} from '../hw06/localStorage/localStorage'
+import {restoreState, saveState} from '../hw06/localStorage/localStorage'
 import s from './Clock.module.css'
 
 function Clock() {
-    const [timerId, setTimerId] = useState<NodeJS.Timer|undefined>(undefined)
+    const [timerId, setTimerId] = useState<NodeJS.Timer | undefined>(undefined)
     // for autotests // не менять // можно подсунуть в локалСторэдж нужную дату, чтоб увидеть как она отображается
     const [date, setDate] = useState<Date>(new Date(restoreState('hw9-date', Date.now())))
     const [show, setShow] = useState<boolean>(false)
@@ -12,10 +12,12 @@ function Clock() {
     const start = () => {
         // пишут студенты // запустить часы (должно отображаться реальное время, а не +1)
         // сохранить ид таймера (https://learn.javascript.ru/settimeout-setinterval#setinterval)
-        clearInterval(timerId)
-        setTimerId(setInterval(()=>{
-            setDate(new Date())
-        },1000))
+       stop()
+        setTimerId(setInterval(() => {
+            const newDate = new Date(Date.now())
+            setDate(newDate)
+            saveState('hw9-date', newDate)
+        }, 1000))
     }
 
     const stop = () => {
@@ -32,18 +34,20 @@ function Clock() {
         setShow(false)
     }
 
-    const stringTime =new Intl.DateTimeFormat(['ru'],{hour:"numeric", minute:'numeric', second:'numeric' }).format(date.getTime()) || <br/> // часы24:минуты:секунды (01:02:03)/(23:02:03)/(24:00:00)/(00:00:01) // пишут студенты
-    const stringDate =new Intl.DateTimeFormat(['ru'],{day: 'numeric', month: 'numeric', year: 'numeric'}).format(date.getDate())   || <br/> // день.месяц.год (01.02.2022) // пишут студенты, варианты 01.02.0123/01.02.-123/01.02.12345 не рассматриваем
+    const stringTime = new Intl.DateTimeFormat(['ru'], {
+        hour: "numeric",
+        minute: 'numeric',
+        second: 'numeric'
+    }).format(date) || <br/> // часы24:минуты:секунды (01:02:03)/(23:02:03)/(24:00:00)/(00:00:01) // пишут студенты
+    const stringDate = new Intl.DateTimeFormat(['ru'], {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric'
+    }).format(date) || <br/> // день.месяц.год (01.02.2022) // пишут студенты, варианты 01.02.0123/01.02.-123/01.02.12345 не рассматриваем
 
     // день недели на английском, месяц на английском (https://learn.javascript.ru/intl#intl-datetimeformat)
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    const currentDate = new Date();
-    const stringDay = days[currentDate.getDay()]
-        || <br/> // пишут студенты
-    const months = ['January', 'February', 'March',
-        'April', 'May', 'June',	'July',	'August', 'September', 'October', 'November', 'December'];
-    const currentMonth = new Date();
-    const stringMonth = months[currentMonth.getMonth()] || <br/> // пишут студенты
+    const stringDay = new Intl.DateTimeFormat(['en-US'], {weekday: "long" }).format(date) || <br/> // пишут студенты
+    const stringMonth = new Intl.DateTimeFormat(['en-US'], {month: "long"}).format(date) || <br/> // пишут студенты
 
     return (
         <div className={s.clock}>
