@@ -36,8 +36,14 @@ function Clock() {
     const stringDate =new Intl.DateTimeFormat(['ru'],{day: 'numeric', month: 'numeric', year: 'numeric'}).format(date.getDate())   || <br/> // день.месяц.год (01.02.2022) // пишут студенты, варианты 01.02.0123/01.02.-123/01.02.12345 не рассматриваем
 
     // день недели на английском, месяц на английском (https://learn.javascript.ru/intl#intl-datetimeformat)
-    const stringDay = new Intl.DateTimeFormat().format(date.getDay() )  || <br/> // пишут студенты
-    const stringMonth = new Intl.DateTimeFormat().format(date.getMonth())  || <br/> // пишут студенты
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const currentDate = new Date();
+    const stringDay = days[currentDate.getDay()]
+        || <br/> // пишут студенты
+    const months = ['January', 'February', 'March',
+        'April', 'May', 'June',	'July',	'August', 'September', 'October', 'November', 'December'];
+    const currentMonth = new Date();
+    const stringMonth = months[currentMonth.getMonth()] || <br/> // пишут студенты
 
     return (
         <div className={s.clock}>
