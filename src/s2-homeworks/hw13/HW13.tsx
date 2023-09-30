@@ -60,8 +60,8 @@ const HW13 = () => {
                 }else{
                     setCode('Error!')
                     setImage(errorUnknown)
-                    setInfo('')
-                    setText('Network Error\n' + 'Axios')
+                    setInfo(e.name)
+                    setText(e.message)
                 }
 
             })
