@@ -35,7 +35,8 @@ const HW13 = () => {
         axios
             .post(url, {success: x})
             .then((res) => {
-                setCode('Код 200!')
+
+                setCode(`Код ${res.data.status}!`)
                 setImage(success200)
                 setInfo(res.data.info)
                 setText(res.data.errorText)
@@ -43,18 +44,21 @@ const HW13 = () => {
 
             })
             .catch((e) => {
+
                 if (e.response.status === 500){
-                    setCode('Code 500')
+                    console.log(e)
+                    setCode(`Ошибка ${e.response?.status}!`)
                     setImage(error500)
                     setInfo(e.response?.data?.info)
                     setText(e.response?.data?.errorText)
                 }else if (e.response?.status === 400){
-                    setCode(' 400!')
+                    console.log(e)
+                    setCode(`Ошибка ${e.response?.status}!`)
                     setImage(error400)
                     setInfo(e.response?.data?.info)
                     setText(e.response?.data?.errorText)
                 }else{
-                    setCode(' Error!')
+                    setCode('Error!')
                     setImage(errorUnknown)
                     setInfo('')
                     setText('Network Error\n' + 'Axios')
