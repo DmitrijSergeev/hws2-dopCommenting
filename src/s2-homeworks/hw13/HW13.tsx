@@ -36,7 +36,7 @@ const HW13 = () => {
             .post(url, {success: x})
             .then((res) => {
 
-                setCode(`Код ${res.data.status}!`)
+                setCode(`Код ${res.status}!`)
                 setImage(success200)
                 setInfo(res.data.info)
                 setText(res.data.errorText)
